@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: todo_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: todo_user
+      POSTGRES_PASSWORD: supersecret
+      POSTGRES_DB: todos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todo_user -d todos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

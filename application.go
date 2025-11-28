@@ -57,10 +57,11 @@ var tpl = template.Must(template.New("index").Parse(`
 `))
 
 func main() {
+
 	var err error
 
 	db, err = sql.Open("postgres",
-		fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=require",
+		fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 			os.Getenv("DB_HOST"),
 			os.Getenv("DB_PORT"),
 			os.Getenv("DB_USER"),
