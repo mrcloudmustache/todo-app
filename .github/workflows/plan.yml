@@ -49,7 +49,7 @@ jobs:
         with:
           role-to-assume:  ${{ secrets.AWS_ROLE_ARN }}
           role-session-name: terraform-aws-oidc-example
-          aws-region: us-east-1
+          aws-region: us-east-2
       
       - uses: hashicorp/setup-terraform@v3
 
