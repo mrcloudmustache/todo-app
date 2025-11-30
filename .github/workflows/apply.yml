@@ -12,22 +12,34 @@ env:
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE }}
 
 jobs:
-  DownloadSourceBundle:
+  # Configure job to download source bundle artifact from previous workflow
+  UploadSourceBundle:
     runs-on: ubuntu-latest
-    outputs:
-      bundle-path: ${{ steps.download-source-bundle.outputs.bundle-path }}
     steps:
-      - name: Download EB source bundle artifact
-        uses: actions/download-artifact@v2
-        id: download-source-bundle
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # only include application.go, go.mod and go.sum are needed for the source bundle
+      - name: Create source bundle
+        run: zip -r source-bundle.zip application.go go.mod go.sum
+      
+      - name: Upload source bundle artifact
+        uses: actions/upload-artifact@v5
         with:
           name: eb-source-bundle
-          path: .
+          path: source-bundle.zip
   TerraformApply:
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
+
+      - name: Download EB source bundle artifact
+        uses: actions/download-artifact@v5
+        id: download-source-bundle
+        with:
+          name: eb-source-bundle
+          path: .
       
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502

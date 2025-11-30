@@ -25,7 +25,7 @@ jobs:
         run: zip -r source-bundle.zip application.go go.mod go.sum
       
       - name: Upload source bundle artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v5
         with:
           name: eb-source-bundle
           path: source-bundle.zip
@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download EB source bundle artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v5
         id: download-source-bundle
         with:
           name: eb-source-bundle
