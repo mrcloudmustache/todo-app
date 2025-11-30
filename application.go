@@ -30,7 +30,7 @@ var tpl = template.Must(template.New("index").Parse(`
 	</style>
 </head>
 <body>
-	<h1>Todo List (RDS)</h1>
+	<h1>Todo List</h1>
 
 	<form method="POST" action="/add">
 		<input name="text" required placeholder="New task"/>
