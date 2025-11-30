@@ -1,0 +1,26 @@
+# Workflow to create Elastic Beanstalk source bundle zip file
+name: Create EB Source Bundle
+on:
+  pull_request:
+  # Run when application.go file is changed
+    paths:
+      - 'application.go'
+      - 'go.mod'
+      - 'go.sum'
+  push:
+  # Run when application.go file is changed
+    paths:
+      - 'application.go'
+      - 'go.mod'
+      - 'go.sum'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # only include application.go, go.mod and go.sum are needed for the source bundle
+      - name: Create source bundle
+        run: zip -r source-bundle.zip application.go go.mod go.sum
