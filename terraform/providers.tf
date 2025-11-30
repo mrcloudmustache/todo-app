@@ -12,7 +12,7 @@ terraform {
 
   backend "s3" {
     region       = "us-east-2"
-    key          = "terraform.tfstate"
+    key          = "global/todo-elastic-beanstalk/terraform.tfstate"
     dynamodb_table = "mcmgithubactions-state-locking"
 
   }
