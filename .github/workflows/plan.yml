@@ -53,10 +53,13 @@ jobs:
 
       - name: Show caller identity
         run: aws sts get-caller-identity
+
+      - name: Show caller identity
+        run: aws sts get-caller-identity
       
       - uses: hashicorp/setup-terraform@v3
 
-      - run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+      - run: terraform init -backend-config="bucket=mcmgithubactionstfstate"
         # Add path to terraform files if they are not in the repository root
         working-directory: ./terraform
 
