@@ -31,6 +31,7 @@ jobs:
           path: source-bundle.zip
   TerraformPlan:
     runs-on: ubuntu-latest
+    needs: UploadSourceBundle
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
