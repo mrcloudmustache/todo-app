@@ -137,10 +137,10 @@ variable "environment" {
   description = "Name of the environment variable to set in the Elastic Beanstalk environment"
   default     = "dev"
 
-// Validate environment name is dev or prod or stage
-validation {
-  condition = var.environment == "dev" || var.environment == "prod" || var.environment == "stage"
-  error_message = "Environment name must be dev, prod, or stage."
-}
+  // Validate environment name is dev or prod or stage
+  validation {
+    condition     = var.environment == "dev" || var.environment == "prod" || var.environment == "stage"
+    error_message = "Environment name must be dev, prod, or stage."
+  }
 
 }

@@ -11,9 +11,9 @@ terraform {
   }
 
   backend "s3" {
-    region = "us-east-2"
-    key    = "terraform.tfstate"
-    dynamodb_table = "mcmgithubactions-state-locking"
+    region       = "us-east-2"
+    key          = "terraform.tfstate"
+    use_lockfile = true
   }
 }
 

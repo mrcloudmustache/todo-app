@@ -18,7 +18,7 @@ resource "aws_elastic_beanstalk_application_version" "main" {
 }
 
 resource "aws_elastic_beanstalk_environment" "main" {
-  name                = "${var.app_name}"
+  name                = var.app_name
   application         = aws_elastic_beanstalk_application.main.name
   solution_stack_name = var.solution_stack_name
   tier                = var.environment_tier
