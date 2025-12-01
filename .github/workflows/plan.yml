@@ -46,13 +46,7 @@ jobs:
         with:
           role-to-assume:  ${{ secrets.AWS_ROLE_ARN }}
           role-session-name: terraform-aws-oidc-example
-          aws-region: us-east-2
-
-      - name: Show caller identity
-        run: aws sts get-caller-identity
-
-      - name: Show caller identity
-        run: aws sts get-caller-identity
+          aws-region: us-east-1
       
       - uses: hashicorp/setup-terraform@v3
 
