@@ -1,0 +1,36 @@
+name: Terraform Destroy
+on:
+    workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  # Configure job to download source bundle artifact from previous workflow
+  TerraformDestroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+      
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
+        with:
+          role-to-assume:  ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: terraform-aws-oidc-example
+          aws-region: us-east-1
+      
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: initialize terraform
+        run: terraform init -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}"
+        working-directory: ./terraform
+      
+      - name: validate terraform configuration files
+        run: terraform validate
+        working-directory: ./terraform
+
+      - name: run terraform destroy to update aws infrastructure
+        run: terraform destroy --auto-approve
+        working-directory: ./terraform
