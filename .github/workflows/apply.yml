@@ -8,9 +8,6 @@ permissions:
   id-token: write
   contents: read
 
-env:
-  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE }}
-
 jobs:
   # Configure job to download source bundle artifact from previous workflow
   UploadSourceBundle:
@@ -50,8 +47,8 @@ jobs:
       
       - uses: hashicorp/setup-terraform@v3
 
-      - name: initialize terraform 
-        run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+      - name: initialize terraform
+        run: terraform init -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}"
         # Add path to terraform files if they are not in the repository root
         working-directory: ./terraform
       
@@ -61,6 +58,6 @@ jobs:
         working-directory: ./terraform
 
       - name: run terraform apply to update aws infrastructure
-        run: terraform apply --auto-approve
+        run: terraform apply -input=false --auto-approve
         # Add path to terraform files if they are not in the repository root
         working-directory: ./terraform
