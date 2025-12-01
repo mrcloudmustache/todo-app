@@ -1,0 +1,60 @@
+# Terraform Plan GitHub Action Workflow
+name: Terraform Plan
+on:
+  pull_request:
+  push:
+    branches:
+      - dev/**
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  # Configure job to download source bundle artifact from previous workflow
+  UploadSourceBundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # only include application.go, go.mod and go.sum are needed for the source bundle
+      - name: Create source bundle
+        run: zip -r source-bundle.zip application.go go.mod go.sum
+      
+      - name: Upload source bundle artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: eb-source-bundle
+          path: source-bundle.zip
+  TerraformPlan:
+    runs-on: ubuntu-latest
+    needs: UploadSourceBundle
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - name: Download EB source bundle artifact
+        uses: actions/download-artifact@v5
+        id: download-source-bundle
+        with:
+          name: eb-source-bundle
+          path: .
+      
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
+        with:
+          role-to-assume:  ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: terraform-aws-oidc-example
+          aws-region: us-east-1
+      
+      - uses: hashicorp/setup-terraform@v3
+
+      - run: terraform init -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}"
+        # Add path to terraform files if they are not in the repository root
+        working-directory: ./terraform
+
+      - id: plan
+        run: terraform plan -input=false -no-color
+        # Add path to terraform files if they are not in the repository root
+        working-directory: ./terraform

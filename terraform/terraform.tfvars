@@ -1,0 +1,16 @@
+aws_region              = "us-east-1"
+app_name                = "todo-app"
+app_description         = "My todo application deployed with Terraform"
+app_version             = "1.0.0"
+app_version_description = "Application version created by Terraform"
+db_name                 = "todos"
+db_username             = "todo_user"
+db_port                 = "5432"
+publicly_accessible     = false
+solution_stack_name     = "64bit Amazon Linux 2023 v4.5.0 running Go 1"
+environment_tier        = "WebServer"
+listener_port           = 8080
+asg_min_size            = 1
+asg_max_size            = 3
+db_secret_name          = "dev/eb/db_password"
+environment             = "dev"
