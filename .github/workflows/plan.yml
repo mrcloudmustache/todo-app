@@ -1,4 +1,4 @@
-# Terraform Plan GitHub Action Workflow 1
+# Terraform Plan GitHub Action Workflow
 name: Terraform Plan
 on:
   pull_request:
