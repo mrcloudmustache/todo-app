@@ -15,6 +15,6 @@ resource "random_id" "bucket_suffix" {
 // Upload the application source bundle to S3
 resource "aws_s3_object" "source_bundle_zip" {
   bucket = aws_s3_bucket.source_bundle.id
-  key    = "beanstalk/source_bundle.zip"
-  source = "../source_bundle.zip"
+  key    = "beanstalk/source-bundle.zip"
+  source = "../source-bundle.zip"
 }
